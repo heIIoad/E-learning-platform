@@ -15,6 +15,7 @@
                             </div>
                             <div class="card-text">
                                 <h4>{{$course->description}}</h4>
+                                <small>created by: </small>
                                 <small>{{$course->beginDate}} to {{$course->endingDate}}</small>
                             </div>
                         </div>

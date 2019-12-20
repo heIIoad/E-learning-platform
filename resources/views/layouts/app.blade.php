@@ -11,7 +11,8 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
-
+    <!-- <script src="https://cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script>-->
+    <script src="{{asset('js/ckeditor/ckeditor.js')}}"></script>
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -24,8 +25,14 @@
         @include('inc.navbar')
 
         <main class="py-4">
+            <div class="container">
+                @include('inc.messages')
+            </div>
             @yield('content')
         </main>
     </div>
+    <script>
+        CKEDITOR.replace( 'article-ckeditor' );
+    </script>
 </body>
 </html>

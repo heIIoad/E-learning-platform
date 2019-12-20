@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Course;
+use App\Post;
+use App\Participant;
 
 class CourseController extends Controller
 {
@@ -25,7 +28,10 @@ class CourseController extends Controller
 */
     public function create()
     {
-        //
+        if (Auth::user()->role == 'lecturer')
+            return view('courses.createCourse');
+        else
+            return redirect('/courses')->with('error', 'You have no access to course creation');
     }
 
     /**
@@ -36,7 +42,29 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required',
+            'description' => 'required',
+            'beginningDate' => 'required',
+            'endingDate' => 'required'
+        ]);
+
+        // Create course
+        $course = new Course;
+        $course->title = $request->input('title');
+        $course->ownerID = Auth::id();
+        $course->description = $request->input('description');
+        $course->beginDate = $request->input('beginningDate');
+        $course->endingDate = $request->input('endingDate');
+        $course->save();
+
+        //add owner to participant list
+        $participant = new Participant;
+        $participant->participantID = Auth::id();
+        $participant->courseID = $course->id;
+        $participant->save();
+
+        return redirect('/courses')->with('success', 'Post created');
     }
 
     /**
@@ -48,7 +76,13 @@ class CourseController extends Controller
     public function show($id)
     {
         $course = Course::find($id);
-        return view('courses.showCourse')->with('course', $course);
+        $posts = Post::where('courseID', $id)->orderBy('start_date','asc')->paginate(10);
+
+        if($course === null)
+            return redirect('home');
+        else
+            $participant = Participant::where('courseID', $id)->where('participantID', Auth::id())->get();
+            return view('courses.showCourse')->with('course', $course)->with('posts', $posts)->with('participant', $participant);
     }
 
     /**
@@ -83,5 +117,15 @@ class CourseController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function AddToParticipantList($courseID)
+    {
+        $participant = new Participant;
+        $participant->participantID = Auth::id();
+        $participant->courseID = $courseID;
+        $participant->save();
+
+        return back();
     }
 }
