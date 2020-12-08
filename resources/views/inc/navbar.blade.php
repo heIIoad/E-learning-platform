@@ -4,9 +4,11 @@
             {{ config('app.name', 'Education') }}
         </a>
 
-        <a class="btn btn-light" href="{{ url('/courses') }}">
-            course list
-        </a>
+        @auth
+            <a class="btn btn-light" href="{{ url('/courses') }}">
+                course list
+            </a>
+        @endauth
 
         @auth
             @if (Auth::user()->role == 'lecturer')

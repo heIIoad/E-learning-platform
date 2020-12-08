@@ -216,6 +216,7 @@ figure {
 img {
   vertical-align: middle;
   border-style: none;
+  max-width: 100%;
 }
 
 svg {
@@ -2734,6 +2735,7 @@ fieldset:disabled a.btn {
   color: #fff;
   background-color: #3490dc;
   border-color: #3490dc;
+  z-index: 1;
 }
 
 .btn-primary:hover {
@@ -2924,6 +2926,7 @@ fieldset:disabled a.btn {
   color: #fff;
   background-color: #e3342f;
   border-color: #e3342f;
+  z-index: 2;
 }
 
 .btn-danger:hover {
@@ -3352,7 +3355,12 @@ fieldset:disabled a.btn {
   line-height: 1.5;
   border-radius: 0.3rem;
 }
-
+.btn-xlarge {
+    padding: 0.5rem 1rem;
+    font-size: 35px;
+    line-height: 1.5;
+    border-radius: 0.3rem;
+}
 .btn-sm,
 .btn-group-sm > .btn {
   padding: 0.25rem 0.5rem;
@@ -8801,6 +8809,7 @@ button.bg-dark:focus {
 .pl-2,
 .px-2 {
   padding-left: 0.5rem !important;
+  z-index: 1;
 }
 
 .p-3 {

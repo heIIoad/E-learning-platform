@@ -20,6 +20,7 @@ class CreatePostsTable extends Migration
             $table->date('start_date');
             $table->mediumText('body');
             $table->timestamps();
+            $table->foreign('courseID')->references('id')->on('courses');
         });
     }
 

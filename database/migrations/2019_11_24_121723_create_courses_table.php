@@ -21,6 +21,7 @@ class CreateCoursesTable extends Migration
             $table->date('beginDate');
             $table->date('endingDate');
             $table->timestamps();
+            $table->foreign('ownerID')->references('id')->on('users');
         });
     }
 

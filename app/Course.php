@@ -10,4 +10,9 @@ class Course extends Model
     protected $table = 'courses';
     // Primary Key
     public $primaryKey = 'id';
+
+    public function users()
+    {
+        return $this->belongsToMany('App\User', 'participants', 'courseID', 'participantID')->orderBy('surname');
+    }
 }

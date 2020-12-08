@@ -18,6 +18,8 @@ class CreateParticipantsTable extends Migration
             $table->integer('participantID');
             $table->integer('courseID');
             $table->timestamps();
+            $table->foreign('participantID')->references('id')->on('users');
+            $table->foreign('courseID')->references('id')->on('courses');
         });
     }
 

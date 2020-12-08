@@ -54,7 +54,7 @@ class PostsController extends Controller
         $post->start_date = $request->input('start_date');
         $post->body = $request->input('body');
         $post->save();
-        return redirect()->route( 'courses.show', ['course' => $courseID]);
+        return redirect()->route( 'courses.show', ['course' => $courseID])->with('success', 'Lesson created');
     }
 
     /**
@@ -75,9 +75,14 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($courseID, $id)
     {
-        //
+        $course = Course::find($courseID);
+        $post = Post::find($id);
+        if($course->ownerID == Auth::id())
+            return view('courses.editPost')->with('course', $course)->with('post', $post);
+        else
+            return redirect('/home')->with('error', 'You have no access to course editing');
     }
 
     /**
@@ -87,9 +92,22 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $courseID, $id)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required',
+            'body' => 'required',
+            'start_date' => 'required'
+        ]);
+
+        // Create post
+        $post = Post::find($id);
+        $post->title = $request->input('title');
+        $post->courseID = $courseID;
+        $post->start_date = $request->input('start_date');
+        $post->body = $request->input('body');
+        $post->save();
+        return redirect()->route( 'courses.show', ['course' => $courseID])->with('success', 'Lesson updated');
     }
 
     /**
@@ -98,8 +116,11 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($courseID, $id)
     {
-        //
+        $post = Post::find($id);
+
+        $post->delete();
+        return redirect()->route( 'courses.show', ['course' => $courseID])->with('success', 'Lesson deleted');
     }
 }
