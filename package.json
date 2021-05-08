@@ -28,6 +28,6 @@
         "@ckeditor/ckeditor5-build-decoupled-document": "^15.0.0",
         "@ckeditor/ckeditor5-editor-decoupled": "^15.0.0",
         "ckeditor": "^4.12.1",
-        "ckeditor4": "^4.13.0"
+        "ckeditor4": "^4.14.0"
     }
 }
